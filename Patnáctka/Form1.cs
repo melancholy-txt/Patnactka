@@ -39,7 +39,7 @@ namespace Patnáctka
                         continue;
                     }
 
-                    polickos[i, j] = new Policko(
+                    polickos[i, j] = new PolickoL(
                         pocitadlo,
                         obrazek,
                         new Point(j, i)

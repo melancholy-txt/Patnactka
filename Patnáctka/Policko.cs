@@ -12,15 +12,15 @@ namespace Patnáctka
 {
     public partial class Policko : UserControl
     {
-        private int poradi;
-        public int Poradi => poradi;    
-        private Image obrazek;
+        protected int poradi;
+        public int Poradi => poradi;
+        protected Image obrazek;
 
         public int X => Location.X / Width;
         public int Y => Location.Y / Height;    
 
-        private int obrazekX;
-        private int obrazekY;
+        protected int obrazekX;
+        protected int obrazekY;
 
         public Action<Policko> OnPolickoClick;
         private Policko()
