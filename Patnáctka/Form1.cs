@@ -21,7 +21,14 @@ namespace Patnáctka
 
         private void VytvorPatnactku()
         {
-            Image obrazek = Image.FromFile("C:/Users/tovis/OneDrive/Desktop/balin400.png");
+            Image obrazek = Random.Shared.Next(4) switch
+            {
+                0 => Image.FromFile("D:Pics/kubin/predator400.png"),
+                1 => Image.FromFile("D:Pics/kubin/kuceratroll400.png"),
+                2 => Image.FromFile("C:/Users/tovis/OneDrive/Desktop/balin400.png"),
+                3 => Image.FromFile("D:Pics/kubin/kubin_art400.jpg"),
+                _ => Image.FromFile("D:Pics/kubin/kuceratroll400.png"),
+            };
             polickos = new Policko[4,4];
             int pocitadlo = 0;
             for (int i = 0; i < polickos.GetLength(0); i++)
@@ -94,8 +101,9 @@ namespace Patnáctka
                     }
                     else
                         isInOrder = false;
+                    wincheck++;
+
                 }
-                wincheck++;
             }
             if (isInOrder)
                 MessageBox.Show("you won lol");
