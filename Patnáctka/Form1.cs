@@ -39,46 +39,56 @@ namespace Patnáctka
                     panel1.Controls.Add(polickos[i, j]);
                     pocitadlo++;
                     polickos[i, j].OnPolickoClick += OnPolickoKlik;
+                    polickos[i, j].OnPolickoClick += WinCheck;
                 }
+            }
+
+            Zamichej();
+        }
+
+        private void Zamichej()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                OnPolickoKlik(polickos[Random.Shared.Next(polickos.GetLength(1)), Random.Shared.Next(polickos.GetLength(0))]);
             }
         }
 
         private void OnPolickoKlik(Policko policko)
         {
             //zjisteni zda ma souseda prazdne policko a kontrola vyhry a takovyhle ty mrdky a tak poradi a ja nevim presunuti
-            if (AhojJaJsemTvujSoused(policko.X, policko.Y - 1))
+            if(policko is not null)
             {
-                ProhodPolicka(policko, policko.X, policko.Y - 1);
-            }
-            else if (AhojJaJsemTvujSoused(policko.X, policko.Y + 1))
-            {
-                ProhodPolicka(policko, policko.X, policko.Y + 1);
+                if (AhojJaJsemTvujSoused(policko.X, policko.Y - 1))
+                {
+                    ProhodPolicka(policko, policko.X, policko.Y - 1);
+                }
+                else if (AhojJaJsemTvujSoused(policko.X, policko.Y + 1))
+                {
+                    ProhodPolicka(policko, policko.X, policko.Y + 1);
 
-            }
-            else if (AhojJaJsemTvujSoused(policko.X - 1, policko.Y))
-            {
-                ProhodPolicka(policko, policko.X - 1, policko.Y);
+                }
+                else if (AhojJaJsemTvujSoused(policko.X - 1, policko.Y))
+                {
+                    ProhodPolicka(policko, policko.X - 1, policko.Y);
 
+                }
+                else if (AhojJaJsemTvujSoused(policko.X + 1, policko.Y))
+                {
+                    ProhodPolicka(policko, policko.X + 1, policko.Y);
+                }
             }
-            else if (AhojJaJsemTvujSoused(policko.X + 1, policko.Y))
-            {
-                ProhodPolicka(policko, policko.X + 1, policko.Y);
-            }
-
-
-            //wip checkovani vyhry
-            WinCheck();
         }
 
-        private void WinCheck()
+        private void WinCheck(Policko unused)
         {
             int wincheck = 0;
             bool isInOrder = false;
-            foreach (var pole in polickos)
+            foreach (var policko in polickos)
             {
-                if (pole is not null)
+                if (policko is not null)
                 {
-                    if (pole.Poradi == wincheck)
+                    if (policko.Poradi == wincheck)
                     {
                         isInOrder = true;
                     }
