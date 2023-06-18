@@ -65,12 +65,25 @@ namespace Patnáctka
                 ProhodPolicka(policko, policko.X + 1, policko.Y);
             }
 
+
             //wip checkovani vyhry
+            int wincheck = 0;
+            bool isInOrder = false;
             foreach (var pole in polickos)
             {
-                MessageBox.Show("" + pole.Poradi);
-                
+                if(pole is not null)
+                {
+                    if (pole.Poradi == wincheck)
+                    {
+                        isInOrder = true;
+                    }
+                    else
+                        isInOrder = false;
+                }
+                wincheck++;            
             }
+            if (isInOrder)
+                MessageBox.Show("you won lol");
         }
 
         private void ProhodPolicka(Policko policko, int x, int y)
