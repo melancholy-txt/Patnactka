@@ -50,28 +50,33 @@ namespace Patnáctka
             {
                 ProhodPolicka(policko, policko.X, policko.Y - 1);
             }
-            else if(AhojJaJsemTvujSoused(policko.X, policko.Y + 1))
+            else if (AhojJaJsemTvujSoused(policko.X, policko.Y + 1))
             {
                 ProhodPolicka(policko, policko.X, policko.Y + 1);
 
             }
-            else if(AhojJaJsemTvujSoused(policko.X - 1, policko.Y))
+            else if (AhojJaJsemTvujSoused(policko.X - 1, policko.Y))
             {
                 ProhodPolicka(policko, policko.X - 1, policko.Y);
 
             }
-            else if(AhojJaJsemTvujSoused(policko.X + 1, policko.Y))
+            else if (AhojJaJsemTvujSoused(policko.X + 1, policko.Y))
             {
                 ProhodPolicka(policko, policko.X + 1, policko.Y);
             }
 
 
             //wip checkovani vyhry
+            WinCheck();
+        }
+
+        private void WinCheck()
+        {
             int wincheck = 0;
             bool isInOrder = false;
             foreach (var pole in polickos)
             {
-                if(pole is not null)
+                if (pole is not null)
                 {
                     if (pole.Poradi == wincheck)
                     {
@@ -80,7 +85,7 @@ namespace Patnáctka
                     else
                         isInOrder = false;
                 }
-                wincheck++;            
+                wincheck++;
             }
             if (isInOrder)
                 MessageBox.Show("you won lol");
