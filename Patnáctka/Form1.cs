@@ -2,7 +2,9 @@ namespace Patnáctka
 {
     public partial class Form1 : Form
     {
-        Policko[,] polickos; 
+        Policko[,] polickos;
+        int pocetTahu;
+        bool jeToLisak;
         public Form1(bool jeToLisak = false)
         {
             InitializeComponent();
@@ -12,11 +14,46 @@ namespace Patnáctka
             }
             else
                 VytvorPatnactku();
+            this.jeToLisak = jeToLisak;
         }
 
         private void VytvorLisaka()
         {
-            throw new NotImplementedException();
+            Image obrazek = Random.Shared.Next(4) switch
+            {
+                0 => Image.FromFile("D:Pics/kubin/predator400.png"),
+                1 => Image.FromFile("D:Pics/kubin/kuceratroll400.png"),
+                2 => Image.FromFile("C:/Users/tovis/OneDrive/Desktop/balin400.png"),
+                3 => Image.FromFile("D:Pics/kubin/kubin_art400.jpg"),
+                _ => Image.FromFile("D:Pics/kubin/kuceratroll400.png"),
+            };
+            polickos = new Policko[3, 3];
+            int pocitadlo = 0;
+            for (int i = 0; i < polickos.GetLength(0); i++)
+            {
+                for (int j = 0; j < polickos.GetLength(1); j++)
+                {
+                    if (4 == pocitadlo)
+                    {
+                        pocitadlo++;
+                        continue;
+                    }
+
+                    polickos[i, j] = new Policko(
+                        pocitadlo,
+                        obrazek,
+                        new Point(j, i)
+                        );
+
+                    panel1.Controls.Add(polickos[i, j]);
+                    pocitadlo++;
+                    polickos[i, j].OnPolickoClick += OnPolickoKlik;
+                    polickos[i, j].OnPolickoClick += WinCheck;
+                    polickos[i, j].OnPolickoClick += TahyCheck;
+                }
+            }
+
+            Zamichej();
         }
 
         private void VytvorPatnactku()
@@ -47,10 +84,17 @@ namespace Patnáctka
                     pocitadlo++;
                     polickos[i, j].OnPolickoClick += OnPolickoKlik;
                     polickos[i, j].OnPolickoClick += WinCheck;
+                    polickos[i, j].OnPolickoClick += TahyCheck;
                 }
             }
 
             Zamichej();
+        }
+
+        private void TahyCheck(Policko obj)
+        {
+            pocetTahu++;
+            lbTurnCount.Text = "Počet tahů: " + pocetTahu;
         }
 
         private void Zamichej()
@@ -90,24 +134,36 @@ namespace Patnáctka
         private void WinCheck(Policko unused)
         {
             int wincheck = 0;
-            bool isInOrder = false;
+            bool isInOrder = true;
             foreach (var policko in polickos)
             {
                 if (policko is not null)
                 {
-                    if (policko.Poradi == wincheck)
+                    if(isInOrder)
                     {
-                        isInOrder = true;
+                        if (policko.Poradi == wincheck)
+                        {
+                            isInOrder = true;
+                        }
+                        else
+                        {
+                            isInOrder = false;
+                        }
                     }
-                    else
-                        isInOrder = false;
-                    wincheck++;
-
                 }
+                wincheck++;
             }
             if (isInOrder)
+            {
                 MessageBox.Show("you won lol");
+                if (jeToLisak)
+                    DedVseved.SkoreLisak = pocetTahu;
+                else
+                    DedVseved.SkorePatnatcka = pocetTahu;
+                this.Close();
+            }
         }
+
 
         private void ProhodPolicka(Policko policko, int x, int y)
         {

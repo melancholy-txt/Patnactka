@@ -21,12 +21,15 @@ namespace Patnáctka
         {
             var game = new Form1();
             game.ShowDialog();
+            lbPatnactkaSkore.Text = "Nejvyšší dosažené skóre: " + DedVseved.SkorePatnatcka;
         }
 
         private void btnLisak_Click(object sender, EventArgs e)
         {
             var game = new Form1(true);
             game.ShowDialog();
+            lbLisakSkore.Text = "Nejvyšší dosažené skóre: " + DedVseved.SkoreLisak;
+
         }
 
         private void btnHelp_Click(object sender, EventArgs e)
